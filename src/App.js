@@ -22,15 +22,13 @@ function App() {
   }
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('object');
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then(result => {
-    //     const validUser = result.user;
-    //     setUsers(validUser)
-    //   })
-    //   .catch(error => {
-
-    //   })
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(result => {
+        const user = result.user;
+        setUsers(user)
+      })
+      .catch(error => {
+      })
 
   }
 
@@ -41,11 +39,11 @@ function App() {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control onBlur={handleEmail} type="email" placeholder="Enter email" />
+            <Form.Control onBlur={handleEmail} type="email" placeholder="Enter email" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control onBlur={handlePassword} type="password" placeholder="Password" />
+            <Form.Control onBlur={handlePassword} type="password" placeholder="Password" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
