@@ -2,7 +2,7 @@ import './App.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from './firebase.init';
 
 
@@ -11,9 +11,9 @@ import auth from './firebase.init';
 function App() {
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState('')
-  const [users, setUsers] = useState({})
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [register, setRegister] = useState(false)
   const handleEmail = (event) => {
     const email = event.target.value;
     setEmail(email)
@@ -40,11 +40,15 @@ function App() {
     createUserWithEmailAndPassword(auth, email, password)
       .then(result => {
         const user = result.user;
-        setUsers(user)
+        console.log(user);
       })
       .catch(error => {
+        console.error(error)
       })
 
+  }
+  const handleRegister = (event) => {
+    setRegister(event.target.checked);
   }
 
   return (
@@ -54,26 +58,26 @@ function App() {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control onBlur={handleEmail} type="email" placeholder="Enter email" required />
+            <Form.Control onBlur={handleEmail} type="email" placeholder="Enter email" />
             <Form.Control.Feedback type="invalid">
               Please provide a valid email.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control onBlur={handlePassword} type="password" placeholder="Password" required />
+            <Form.Control onBlur={handlePassword} type="password" placeholder="Password" />
             <Form.Control.Feedback type="invalid">
               Please provide a valid password.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
+            <Form.Check onChange={handleRegister} type="checkbox" label="Already have an accout? " />
           </Form.Group>
           <Form.Control.Feedback>
             {error}
           </Form.Control.Feedback>
           <Button variant="primary" type="submit">
-            Submit
+            {register ? ' Log In' : 'Register'}
           </Button>
         </Form>
       </div>
